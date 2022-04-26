@@ -7,11 +7,10 @@ class App{
             $url = rtrim($url,"/");
             $url = explode("/",$url);
             if(empty($url[0])){
-                error_log('APP::construct-> no hay controlador especificado');
-                $archiveController = 'controllers/login.php';
+                $archiveController = 'controllers/main.php';
                 require_once $archiveController;
-                $controller = new Login();
-                $controller ->loadModel('login');
+                $controller = new Main();
+                $controller ->loadModel('Main');
                 $controller -> render();
                 return false;
             }
@@ -29,7 +28,7 @@ class App{
                             $nparams = count($url)-2;
                             $params = [];
                             for($i = 0; $i< $nparams; $i++){
-                                array_push($params,$url[$i]+2);
+                                array_push($params,$url[$i+2]);
                             }
                             $controller->{$url[1]}($params);
                         }else{
@@ -44,6 +43,7 @@ class App{
                 }
         }else{
             $controller =  new Errors();
+            $controller->render();
         }
     }
 }

@@ -1,20 +1,19 @@
 <?php
 
-class UserModel extends Model implements IModel{
+class UserModel extends Model{
 
 
-    private $id;
+
     private $username;
     private $password;
     private $name;
-    private $lastName;
+
 
     public function __construct(){
         parent::__construct();
         $this->username = "";
         $this->password = "";
         $this->name = "";
-        $this->lastName="";
     }
 
     public function save(){
@@ -22,8 +21,8 @@ class UserModel extends Model implements IModel{
             $query = $this->prepare('INSERT INTO users(username,password,name,lastname) VALUES(:username,:password,:name,:lastname)');
             $query->execute(['username'=>$this->username,
                             'password'=>$this->password,
-                            'name'=>$this->name,
-                            'lastname'=>$this->lastname]);
+                            'name'=>$this->name
+            ]);
             return true;
         }catch(PDOException $e){
             error_log('USERMODEL::save->PDOException '.$e);
@@ -52,21 +51,19 @@ class UserModel extends Model implements IModel{
     }
 
 
-    public function get($id){
+    public function get($username){
 
         try{
-            $query = $this->prepare('SELECT * FROM users WHERE ID = :id');
+            $query = $this->prepare('SELECT * FROM users WHERE username = :username');
             $query->execute([
-                            'id' => $id
+                            'username' =>$username
                             ]);
 
             $user = $query->fetch(PDO::FETCH_ASSOC);
 
-                $this->setId($user['id']);
                 $this->setUsername($user['username']);
                 $this->setPassword($user['password']);
-                $this->setName($user['name']);
-                $this->setLastName($user['lastname']);
+                $this->setName($user['nombre']);
                 
                 return $this;
             
@@ -107,11 +104,9 @@ class UserModel extends Model implements IModel{
 
 
     public function from($array){
-        $this->id           = $array['id'];
         $this->username     = $array['username'];
         $this->password     = $array['password'];
-        $this->name         = $array['name'];
-        $this->lastName     = $array['lastname'];
+        $this->name         = $array['nombre'];
     }
 
     //Método que retorna true o false si existe un usuario con el mismo nombre de usuario
@@ -138,7 +133,8 @@ class UserModel extends Model implements IModel{
         try{
             $user = $this->getId($id);
 
-            return password_verify($password,$user->getPassword());
+            return true;
+            //return password_verify($password,$user->getPassword());
 
         }catch(PDOException $e){
             error_log('USERMODEL::metodoComparePasswords->PDOException '.$e);
@@ -149,9 +145,9 @@ class UserModel extends Model implements IModel{
 
     //función que hashea la clave para no guardarla como texto plano
     //El costo es el número de veces que se HASHEA la contraseña
-    private function getHashedPassword($password){
+    /*private function getHashedPassword($password){
         return password_hash($password,PASSWORD_DEFAULT,['cost'=>2]);
-    }
+    }*/
 
     public function setId($id){
         $this->id = $id;
@@ -170,7 +166,8 @@ class UserModel extends Model implements IModel{
     }
 
     public function setPassword($password){
-        $this->password = $this->getHashedPassword($password);
+        //$this->password = $this->getHashedPassword($password);
+        $this->password = $password;
     }
 
     public function getPassword(){
@@ -183,14 +180,6 @@ class UserModel extends Model implements IModel{
 
     public function getName(){
         return $this->name;
-    }
-
-    public function setLastName($lastname){
-        $this->lastName = $lastname;
-    }
-
-    public function getlastName(){
-        return $this->lastName;
     }
 
 }

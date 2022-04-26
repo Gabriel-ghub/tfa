@@ -22,19 +22,15 @@ class Controller{
     function existPOST($params){
         foreach ($params as $param) {
             if(!isset($_POST[$param])){
-                error_log('CONTROLLER::existsPOST => No existe el parametro'.$param);
                 return false;
             }
         }
         return true;
     }
 
-
-
     function existGET($params){
         foreach ($params as $param) {
             if(!isset($_GET[$param])){
-                error_log('CONTROLLER::existsPOST => No existe el parametro'.$param);
                 return false;
             }
         }
@@ -49,21 +45,20 @@ class Controller{
         return $_POST[$name];
     }
 
-    function redirect($route,$mensajes){
-        $data =[];
+    function redirect($url, $mensajes = []){
+        $data = [];
         $params = '';
-
-        foreach ($mensajes as $key => $mensaje) {
-            array_push($data,$key.'='. $mensaje);
+        
+        foreach ($mensajes as $key => $value) {
+            array_push($data, $key . '=' . $value);
         }
-        $params = join('&',$data);
-
+        $params = join('&', $data);
+        
         if($params != ''){
-            $params = '?'.$params;
+            $params = '?' . $params;
         }
-        header('Location :'.constant('URL'). '/'.$route.$params);
+        header('location: ' . constant('URL') . $url . $params);
     }
-
 }
 
 

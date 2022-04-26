@@ -27,10 +27,10 @@
     </a>
   </div>
 </nav>
-<form action="<?php echo URL.'login/index'?>"  method="POST">
+<form action="<?php echo URL.'login/authenticate'?>" method="POST">
   <div class="mb-3">
     <label for="exampleInputEmail1" class="form-label">Usuario</label>
-    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="user">
+    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="username">
   </div>
   <div class="mb-3">
     <label for="exampleInputPassword1" class="form-label">Contraseña</label>
@@ -42,6 +42,7 @@
   </div>
   <button type="submit" class="btn btn-danger">Entrar</button>
 </form>
-<?php echo $this->showMessages()?>
+<? echo $params; ?>
+
 </body>
 </html>

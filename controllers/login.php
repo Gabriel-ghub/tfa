@@ -1,30 +1,42 @@
 <?php
 
-class Login extends Controller{
-    function __construct(){
-        error_log('Login::construct -> Inicio de Login');
+class Login extends SessionController
+{
+    function __construct()
+    {
         parent::__construct();
     }
 
-    function render(){
-        error_log('Login::render -> Carga el index de Login');
+    function render()
+    {
         $this->view->render('login/index');
     }
 
-    function authenticate(){
-        if($this->existPOST(['username','password'])){
-            $username = $this->getPOST('username');    
-            $password = $this->getPOST('password');    
+    function authenticate()
+    {
+        if ($this->existPOST(['username', 'password'])) {
+            $username = $this->getPOST('username');
+            $password = $this->getPOST('password');
+
+            if ($username == '' || empty($username) || $password == '' || empty($password)) {
+                $this->redirect('', ["ERROR"]);
+                return;
+            }
+            //ACÁ TENGO AL USUARIO CON TODOS SUS DATOS DE LA BBDD
+            $user = $this->model->login($username, $password);
+
+            if($user != NULL){
+                // inicializa el proceso de las sesiones    
+                $this->initialize($user);
+            }else{
+                //error al registrar, que intente de nuevo
+                //$this->errorAtLogin('Nombre de usuario y/o password incorrecto');
+                error_log('Login::authenticate() username and/or password wrong');
+                $this->redirect('', ['error' => Errors::ERROR_LOGIN_AUTHENTICATE_DATA]);
+                return;
+            }
+
         }
 
-        if($username == '' || empty($username) || $password== ''|| empty($password)){
-            $this->redirect('login',['error' =>ErrorMessages::ERROR_LOGIN_USUARIO_NOT_EXISTS]);
-        }
-        $user = $_POST['user'];
-        $password = $_POST['password'];
-        $this->view->user = $user;
-        $this->loadModel("login");
     }
 }
-
-?>
