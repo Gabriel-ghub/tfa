@@ -11,11 +11,19 @@ class Login extends Controller{
         $this->view->render('login/index');
     }
 
-    function login(){
+    function authenticate(){
+        if($this->existPOST(['username','password'])){
+            $username = $this->getPOST('username');    
+            $password = $this->getPOST('password');    
+        }
+
+        if($username == '' || empty($username) || $password== ''|| empty($password)){
+            $this->redirect('login',['error' =>ErrorMessages::ERROR_LOGIN_USUARIO_NOT_EXISTS]);
+        }
         $user = $_POST['user'];
         $password = $_POST['password'];
         $this->view->user = $user;
-        $this->loadModel("main");
+        $this->loadModel("login");
     }
 }
 

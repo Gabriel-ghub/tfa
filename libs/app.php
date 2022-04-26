@@ -26,7 +26,7 @@ class App{
                 if(isset($url[1])){
                     if(method_exists($controller,$url[1])){
                         if(isset($url[2])){
-                            $nparam = count($url)-2;
+                            $nparams = count($url)-2;
                             $params = [];
                             for($i = 0; $i< $nparams; $i++){
                                 array_push($params,$url[$i]+2);
@@ -37,6 +37,7 @@ class App{
                         }
                     }else{
                         $controller =  new Errors();
+                        $controller->render();
                     }
                 }else{
                     $controller->render();

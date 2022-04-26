@@ -27,7 +27,7 @@
     </a>
   </div>
 </nav>
-<form action="<?php echo URL.'main/login'?>"  method="POST">
+<form action="<?php echo URL.'login/index'?>"  method="POST">
   <div class="mb-3">
     <label for="exampleInputEmail1" class="form-label">Usuario</label>
     <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="user">
