@@ -9,7 +9,6 @@ class Main extends SessionController{
 
     function render()
     {
-
         $this->view->username = $this->getUserSessionData();
         $this->view->render('main/index');
     }

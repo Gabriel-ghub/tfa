@@ -7,7 +7,7 @@
     <title>Document</title>
 </head>
 <body>
-<h1>Bienvenido <?php echo $this->username->getUsername();  ?></h1>
+<h1>Bienvenido <?php echo $this->username->getName();?></h1>
 <a href="<?php echo URL?>main/logout">dasda</a>
 </body>
 </html>

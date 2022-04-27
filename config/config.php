@@ -1,6 +1,6 @@
 <?php
 
-define('URL', 'http://localhost:8080/Guia/');
+define('URL', 'http://localhost/Guia/');
 
 define('HOST', 'localhost');
 define('DB', 'appgastos');

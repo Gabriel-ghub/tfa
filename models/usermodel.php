@@ -2,12 +2,9 @@
 
 class UserModel extends Model{
 
-
-
     private $username;
     private $password;
     private $name;
-
 
     public function __construct(){
         parent::__construct();
@@ -37,11 +34,10 @@ class UserModel extends Model{
 
             while($p = $query->fetch(PDO::FETCH_ASSOC)){
                 $item = new UserModel();
-                $item->setId($p['id']);
+                //$item->setId($p['id']);
                 $item->setUsername($p['username']);
                 $item->setPassword($p['password']);
-                $item->setName($p['name']);
-                $item->setLastName($p['lastname']);
+                $item->setName($p['name']);;
                 array_push($items,$item);
             }
             return $items;

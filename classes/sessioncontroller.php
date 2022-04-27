@@ -52,12 +52,19 @@ class SessionController extends Controller{
         return $url[2];
     }
 
-    // Funcion que devuelve un objeto de la clase UserModel
+    // Funcion que devuelve un objeto UserModel
     function getUserSessionData(){
-        $id = $this->session->getCurrentUser();
+        $username = $this->session->getCurrentUser();
         $this->user = new UserModel();
-        $this->user->get($id);
+        $this->user->get($username);
         return $this->user;
+    }
+
+    public function initialize($user)
+    {
+        $username = $user->getUsername();
+        $this->session->setCurrentUser($username);
+        $this->redirect("main");
     }
 
     public function logoutSession()
@@ -65,12 +72,7 @@ class SessionController extends Controller{
         $this->session->closeSession();
     }
     
-    public function initialize($user)
-    {
-        $username = $user->getUsername();
-        $this->session->setCurrentUser($username);
-        $this->redirect("main");
-    }
+
 }
 
 ?>
