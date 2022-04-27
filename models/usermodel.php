@@ -119,7 +119,6 @@ class UserModel extends Model{
             }
 
         }catch(PDOException $e){
-            error_log('USERMODEL::metodoExists->PDOException '.$e);
             return false;
         }
     }
@@ -133,7 +132,6 @@ class UserModel extends Model{
             //return password_verify($password,$user->getPassword());
 
         }catch(PDOException $e){
-            error_log('USERMODEL::metodoComparePasswords->PDOException '.$e);
             return false;
         }
     }
